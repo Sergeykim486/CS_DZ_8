@@ -3,7 +3,7 @@
 int choice = 1; // ТЕКУЩИЙ ВЫБРАННЫЙ ЭЛЕМЕНТ
 // Список меню
 string[] ListMenu = {
-    "  1 Пункт меню                                                            ",
+    "  Задача 54: Отсортировать строки массива по убыванию.                    ",
     "  2 Пункт меню                                                            ",
     "  3 Пункт меню                                                            ",
     "  4 Пункт меню                                                            ",
@@ -207,12 +207,12 @@ int[] Enter2DArraySize()
     int xm1 = GetNum();
     Console.WriteLine("Укажите размер [n]...");
     int xn1 = GetNum();
-    int result = new int [2];
-    result[1] = xm1;
-    result[2] = xn1;
+    int[] result = new int[2];
+    result[0] = xm1;
+    result[1] = xn1;
     return (result);
 }
-int [] NumGenDiapason()
+int[] NumGenDiapason()
 {
 EnterAgayn:
     Console.ForegroundColor = ConsoleColor.Cyan;
@@ -221,9 +221,9 @@ EnterAgayn:
     int xx1 = GetNum();
     Console.WriteLine("Укажите конец диапазона...");
     int yy1 = GetNum();
-    int result = new int [2];
-    result[1] = xx1;
-    result[2] = yy1;
+    int[] result = new int[2];
+    result[0] = xx1;
+    result[1] = yy1;
     return (result);
 }
 int[,] Fill2dArray(int m, int n, int x, int y)
@@ -246,6 +246,13 @@ int[,] Fill2dArray(int m, int n, int x, int y)
         }
     }
     return (result);
+}
+void FieldSize(int leng, int size) // Чтобы таблица была ровной
+{
+    for (int i = 0; i < size - leng; i++)
+    {
+        Console.Write(" ");
+    }
 }
 void Print2DArray(int[,] array1)
 {
@@ -285,6 +292,27 @@ void Print2DArray(int[,] array1)
 // ══════════════════════════════════════ ДОМАШНЕЕ ЗАДАНИЕ ══════════════════════════════════════
 
 // 1 Задача //
+int[,] SortArrayPosInLines(int[,] array)
+{
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+        for (int j = 0; j < array.GetLength(1); j++)
+        {
+            int max = j;
+            for (int s = j; s < array.GetLength(1); s++)
+            {
+                if (array[i, s] > array[i, max]) max = s;
+            }
+            if (max != j)
+            {
+                int temp = array[i, max];
+                array[i, max] = array[i, j];
+                array[i, j] = temp;
+            }
+        }
+    }
+    return (array);
+}
 // 2 Задача //
 // 3 Задача //
 // 4 Задача //
@@ -339,89 +367,78 @@ restart:
         // Здесь объявляются функции которые программа выполнит при выборе того или иного пункта меню
         switch (choice)
         {
-            case 1: // Действие при выборе 1-го пункта меню
-                {
+            case 1:
+                { // Действие при выборе 1-го пункта меню
                     Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("Задача 47. Задайте двумерный массив размером m×n, заполненный случайными вещественными числами.\n" +
-                    "m = 3, n = 4.\n" +
-                    "0,5 7 -2 -0,2\n" +
-                    "1 -3,3 8 -9,9\n" +
-                    "8 7,8 -7,1 9\n");
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine("Укажите размерность двумерного массива [m, n]");
-                    Console.WriteLine("Укажите размер [m]...");
-                    int xm = GetNum();
-                    Console.WriteLine("Укажите размер [n]...");
-                    int xn = GetNum();
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                EnterAgayn0:
-                    Console.WriteLine("В каком диапазоне будут генерироваться числа для заполнения массива?");
-                    Console.WriteLine("Укажите начало диапазона...");
-                    double xx = GetDouble();
-                    Console.WriteLine("Укажите конец диапазона...");
-                    double yy = GetDouble();
-                    if (yy - xx <= xm * xn)
+                    Console.WriteLine("Задача 54: Задайте двумерный массив. Напишите программу, которая упорядочит по убыванию\n" +
+                    "элементы каждой строки двумерного массива.");
+                    int[] size1 = Enter2DArraySize();
+                tryagayn1:
+                    int[] NumGen1 = NumGenDiapason();
+                    if (NumGen1[1] - NumGen1[0] < size1[0] * size1[1])
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Диапазон генерируемых чисел меньше чем размер массива. Повторите ввод...");
-                        goto EnterAgayn0;
+                        Console.WriteLine("Указанный вами диапазон генерируемых чисел, меньше чем количество элементов генерируемого массива.\n" +
+                        "Повторите ввод диапазона...");
+                        goto tryagayn1;
                     }
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine("Задайте количество цифр после запятой для массива...");
-                    int Accuracy = GetNum();
-                    double[,] array2d = new double[xm, xn];
-                    array2d = Fill2DArrayDouble(array2d, xx, yy, Accuracy);
+                    int[,] array1 = Fill2dArray(size1[0], size1[1], NumGen1[0], NumGen1[1]);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n" +
-                    $"Сгенерирован массив вещественных чисел, размером [{xm}, {xn}]\n\n");
-                    Print2DArrayDouble(array2d);
+                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
+                    Console.WriteLine("Сгенерирован массив:");
+                    Print2DArray(array1);
+                    Console.WriteLine("Элементы строк массива отсортированны:");
+                    Print2DArray(SortArrayPosInLines(array1));
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
                     pause();
                     goto restart;
                 }
-            case 2: // Действие при выборе 2-го пункта меню
-                {
+            case 2:
+                { // Действие при выборе 2-го пункта меню
                     Console.Clear();
 
-                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
-
-                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
-                    pause();
-                    goto restart;
-                }
-            case 3: // Действие при выборе 3-го пункта меню
-                {
-                    Console.Clear();
-
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
 
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
                     pause();
                     goto restart;
                 }
-            case 4: // Действие при выборе 4-го пункта меню
-                {
+            case 3:
+                { // Действие при выборе 3-го пункта меню
                     Console.Clear();
 
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
 
-                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");                    
+                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
                     pause();
                     goto restart;
                 }
-            case 5: // Действие при выборе 5-го пункта меню
-                {
+            case 4:
+                { // Действие при выборе 4-го пункта меню
                     Console.Clear();
 
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
 
-                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");                    
+                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
                     pause();
-                    goto restart;                    
+                    goto restart;
                 }
-            case 6: // Действие при выборе 6-го пункта меню
-                {
+            case 5:
+                { // Действие при выборе 5-го пункта меню
+                    Console.Clear();
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
+
+                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
+                    pause();
+                    goto restart;
+                }
+            case 6:
+                { // Действие при выборе 6-го пункта меню
                     ext();
                     goto restart;
                 }
