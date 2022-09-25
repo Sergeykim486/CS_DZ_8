@@ -6,7 +6,7 @@ string[] ListMenu = {
     "  Задача 54: Отсортировать строки массива по убыванию.                    ",
     "  Задача 56: Строка массива с минимальной суммой.                         ",
     "  3 Пункт меню                                                            ",
-    "  4 Пункт меню                                                            ",
+    "  Задача 60: Сгенерировать трехмерный массив.                             ",
     "  5 Пункт меню                                                            ",
     "  ВЫХОД ИЗ ПРОГРАММЫ                                                      "};
 Console.ForegroundColor = ConsoleColor.White;
@@ -370,7 +370,63 @@ int[] MinArrayLineSumm(int[,] array)
     return (result);
 }
 // 3 Задача //
+
 // 4 Задача //
+int[] Enter3DArraySize() // задать длину трехмерного массива
+{
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("Укажите размерность двумерного массива [x, y, z]");
+    Console.WriteLine("Укажите размер [m]...");
+    int x = GetNum();
+    Console.WriteLine("Укажите размер [n]...");
+    int y = GetNum();
+    Console.WriteLine("Укажите размер [o]...");
+    int z = GetNum();
+    int[] result = new int[3];
+    result[0] = x;
+    result[1] = y;
+    result[2] = z;
+    return (result);
+}
+int[,,] Fill3DArray(int m, int n, int o, int x, int y)
+{
+    int[,,] array = new int[m, n, o];
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+        for (int j = 0; j < array.GetLength(0); j++)
+        {
+            for (int k = 0; k < array.GetLength(0); k++)
+            {
+            retry:
+                int tempnum1 = new Random().Next(x, y);
+                for (int i1 = 0; i1 < array.GetLength(0); i1++)
+                {
+                    for (int j1 = 0; j1 < array.GetLength(1); j1++)
+                    {
+                        for (int k1 = 0; k1 < array.GetLength(1); k1++)
+                            if (tempnum1 == array[i1, j1, k1]) goto retry;
+                    }
+                }
+                array[i, j, k] = tempnum1;
+            }
+        }
+    }
+    return (array);
+}
+void Print3DArray(int[,,] array)
+{
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+        for (int j = 0; j < array.GetLength(0); j++)
+        {
+            Console.WriteLine();
+            for (int k = 0; k < array.GetLength(0); k++)
+            {
+                Console.Write($"{array[i, j, k]} ({i}, {j}, {k})   ");
+            }
+        }
+    }
+}
 // 5 Задача //
 
 // ═════════════════════════════════════════════════════════════════════════════════════════════
@@ -422,9 +478,10 @@ restart:
         // Здесь объявляются функции которые программа выполнит при выборе того или иного пункта меню
         switch (choice)
         {
-            case 1:
+            case 1: // Ready
                 { // Действие при выборе 1-го пункта меню
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Задача 54: Задайте двумерный массив. Напишите программу, которая упорядочит по убыванию\n" +
                     "элементы каждой строки двумерного массива.");
                     int[] size1 = Enter2DArraySize();
@@ -448,11 +505,12 @@ restart:
                     pause();
                     goto restart;
                 }
-            case 2:
+            case 2: // Ready
                 { // Действие при выборе 2-го пункта меню
                     Console.Clear();
-                    Console.WriteLine("Задача 54: Задайте двумерный массив. Напишите программу, которая упорядочит по убыванию\n" +
-                    "элементы каждой строки двумерного массива.");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("Задача 56: Задайте прямоугольный двумерный массив. Напишите программу, которая будет находить" +
+                    "строку с наименьшей суммой элементов.");
                     int[] size2 = Enter2DArraySize();
                 tryagayn1:
                     int[] NumGen2 = NumGenDiapason();
@@ -477,6 +535,7 @@ restart:
             case 3:
                 { // Действие при выборе 3-го пункта меню
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
@@ -485,13 +544,28 @@ restart:
                     pause();
                     goto restart;
                 }
-            case 4:
+            case 4: // Ready
                 { // Действие при выборе 4-го пункта меню
                     Console.Clear();
-
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("Задача 60. ...Сформируйте трёхмерный массив из неповторяющихся двузначных чисел. Напишите программу," +
+                    "которая будет построчно выводить массив, добавляя индексы каждого элемента. Массив размером 2 x 2 x 2");
+                    int[] size3 = Enter3DArraySize();
+                tryagayn1:
+                    int[] NumGen3 = NumGenDiapason();
+                    if (NumGen3[1] - NumGen3[0] < size3[0] * size3[1] * size3[2])
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Указанный вами диапазон генерируемых чисел, меньше чем количество элементов генерируемого массива.\n" +
+                        "Повторите ввод диапазона...");
+                        goto tryagayn1;
+                    }
+                    int[,,] array3 = Fill3DArray(size3[0], size3[1], size3[2], NumGen3[0], NumGen3[1]);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
-
+                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n\n");
+                    Console.WriteLine("Сгенерирован трехмерный массив:");
+                    Print3DArray(array3);
+                    Console.WriteLine();
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
                     pause();
                     goto restart;
@@ -499,6 +573,7 @@ restart:
             case 5:
                 { // Действие при выборе 5-го пункта меню
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
