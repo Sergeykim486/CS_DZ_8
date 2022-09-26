@@ -102,14 +102,14 @@ void pause() // Функция паузы, для чтения результа�
     "  ╚═════════════════════════════════════════════════════╝\n");
     ConsoleKeyInfo key;
     key = Console.ReadKey();
-    try
-    {
-        main();
-    }
-    catch
-    {
-        ErrorCatch();
-    }
+    // try
+    // {
+    main();
+    //     }
+    //     catch
+    //     {
+    //         ErrorCatch();
+    //     }
 }
 void ext() // Функция задает пользователю вопрос хочет ли он выйти из программы и закрывает ее если ответ да
 {
@@ -370,7 +370,7 @@ int[] MinArrayLineSumm(int[,] array)
     return (result);
 }
 // 3 Задача //
-int[,] ArrayProduct(int [,] array1, int [,] array2)
+int[,] ArrayProduct(int[,] array1, int[,] array2)
 {
     int[,] result = new int[array1.GetLength(0), array1.GetLength(1)];
     for (int i = 0; i < result.GetLength(0); i++)
@@ -379,7 +379,7 @@ int[,] ArrayProduct(int [,] array1, int [,] array2)
         {
             for (int k = 0; k < array2.GetLength(1); k++)
             {
-                result[i,j] = result[i,j] + (array1[i, k] * array2[k, j]);
+                result[i, j] = result[i, j] + (array1[i, k] * array2[k, j]);
             }
         }
     }
@@ -442,16 +442,37 @@ void Print3DArray(int[,,] array)
     }
 }
 // 5 Задача //
-// void ArraySpiral(int [] array)
-// {
-//     for (int i = 0; i < array.GetLength(0); i++)
-//     {
-//         for (int j = 0; j < array.GetLength(1); j++)
-//         {
-
-//         }
-//     }
-// }
+void ArraySpiral(int[,] array, int i, int j, int coint, int move) // 1 - Вправо  2 - Вниз  3 - Влево  4 - Вверх
+{
+    if (array[i, j] == 0)
+    {
+        array[i, j] = coint;
+        if (move == 1)
+        {
+            if (j + 1 < array.GetLength(1) && array[i, j + 1] == 0) move = 1;
+            else move = 2;
+        }
+        if (move == 2)
+        {
+            if (i + 1 < array.GetLength(0) && array[i + 1, j] == 0) move = 2;
+            else move = 3;
+        }
+        if (move == 3)
+        {
+            if (j - 1 >= 0 && array[i, j - 1] == 0) move = 3;
+            else move = 4;
+        }
+        if (move == 4)
+        {
+            if (i - 1 >= 0 && array[i - 1, j] == 0) move = 4;
+            else move = 1;
+        }
+        if (move == 1) ArraySpiral(array, i, j + 1, coint + 1, move);
+        if (move == 2) ArraySpiral(array, i + 1, j, coint + 1, move);
+        if (move == 3) ArraySpiral(array, i, j - 1, coint + 1, move);
+        if (move == 4) ArraySpiral(array, i - 1, j, coint + 1, move);
+    }
+}
 // ═════════════════════════════════════════════════════════════════════════════════════════════
 
 // ═══════════════════════════════ Обработка выбранного элемента в меню ═══════════════════════════════
@@ -612,14 +633,17 @@ restart:
                     pause();
                     goto restart;
                 }
-            case 5: 
+            case 5:
                 { // Действие при выборе 5-го пункта меню
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Yellow;
-
+                    Console.WriteLine("Задача 62. Напишите программу, которая заполнит спирально массив 4 на 4.");
+                    int[] size5 = Enter2DArraySize();
+                    int[,] array5 = new int[size5[0], size5[1]];
+                    ArraySpiral(array5, 0, 0, 1, 1);
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
-
+                    Print2DArray(array5);
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
                     pause();
                     goto restart;
@@ -638,12 +662,12 @@ restart:
 
 // ═══════════════════════════════ Запуск обработки меню и выбранного элемента ═══════════════════════════════
 
-try
-{
-    main();
-}
+// try
+// {
+main();
+// }
 
-catch
-{
-    ErrorCatch();
-}
+// catch
+// {
+//     ErrorCatch();
+// }
