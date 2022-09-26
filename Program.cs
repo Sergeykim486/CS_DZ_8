@@ -5,9 +5,9 @@ int choice = 1; // ТЕКУЩИЙ ВЫБРАННЫЙ ЭЛЕМЕНТ
 string[] ListMenu = {
     "  Задача 54: Отсортировать строки массива по убыванию.                    ",
     "  Задача 56: Строка массива с минимальной суммой.                         ",
-    "  3 Пункт меню                                                            ",
+    "  Задача 58: Произведение двух массивов                                   ",
     "  Задача 60: Сгенерировать трехмерный массив.                             ",
-    "  5 Пункт меню                                                            ",
+    "  Задача 62: Запись элементов массива по спирали                          ",
     "  ВЫХОД ИЗ ПРОГРАММЫ                                                      "};
 Console.ForegroundColor = ConsoleColor.White;
 Console.BackgroundColor = ConsoleColor.Black;
@@ -370,7 +370,21 @@ int[] MinArrayLineSumm(int[,] array)
     return (result);
 }
 // 3 Задача //
-
+int[,] ArrayProduct(int [,] array1, int [,] array2)
+{
+    int[,] result = new int[array1.GetLength(0), array1.GetLength(1)];
+    for (int i = 0; i < result.GetLength(0); i++)
+    {
+        for (int j = 0; j < result.GetLength(1); j++)
+        {
+            for (int k = 0; k < array2.GetLength(1); k++)
+            {
+                result[i,j] = result[i,j] + (array1[i, k] * array2[k, j]);
+            }
+        }
+    }
+    return (result);
+}
 // 4 Задача //
 int[] Enter3DArraySize() // задать длину трехмерного массива
 {
@@ -428,7 +442,16 @@ void Print3DArray(int[,,] array)
     }
 }
 // 5 Задача //
+// void ArraySpiral(int [] array)
+// {
+//     for (int i = 0; i < array.GetLength(0); i++)
+//     {
+//         for (int j = 0; j < array.GetLength(1); j++)
+//         {
 
+//         }
+//     }
+// }
 // ═════════════════════════════════════════════════════════════════════════════════════════════
 
 // ═══════════════════════════════ Обработка выбранного элемента в меню ═══════════════════════════════
@@ -532,14 +555,33 @@ restart:
                     pause();
                     goto restart;
                 }
-            case 3:
+            case 3: // Ready
                 { // Действие при выборе 3-го пункта меню
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Yellow;
-
+                    Console.WriteLine("Задача 56: Задайте прямоугольный двумерный массив. Напишите программу, которая будет находить" +
+                    "строку с наименьшей суммой элементов.");
+                    int[] size4 = Enter2DArraySize();
+                tryagayn1:
+                    int[] NumGen4 = NumGenDiapason();
+                    if (NumGen4[1] - NumGen4[0] < size4[0] * size4[1])
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Указанный вами диапазон генерируемых чисел, меньше чем количество элементов генерируемого массива.\n" +
+                        "Повторите ввод диапазона...");
+                        goto tryagayn1;
+                    }
+                    int[,] array41 = Fill2dArray(size4[0], size4[1], NumGen4[0], NumGen4[1]);
+                    int[,] array42 = Fill2dArray(size4[0], size4[1], NumGen4[0], NumGen4[1]);
+                    int[,] array4 = new int[size4[0], size4[1]];
+                    array4 = ArrayProduct(array41, array42);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
-
+                    Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n\n");
+                    Console.WriteLine("Сгенерированы два массива:");
+                    Print2DArray(array41);
+                    Print2DArray(array42);
+                    Console.WriteLine("Произведение двух массивов равно:");
+                    Print2DArray(array4);
                     Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
                     pause();
                     goto restart;
@@ -570,7 +612,7 @@ restart:
                     pause();
                     goto restart;
                 }
-            case 5:
+            case 5: 
                 { // Действие при выборе 5-го пункта меню
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -582,7 +624,7 @@ restart:
                     pause();
                     goto restart;
                 }
-            case 6:
+            case 6: // Exit
                 { // Действие при выборе 6-го пункта меню
                     ext();
                     goto restart;
